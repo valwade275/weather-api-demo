@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Val's Weather API Page" />
+  <title>Houston Weather</title>
+
+  <!-- Leaflet CSS/JS -->
+  <link
+    rel="stylesheet"
+    href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
+  />
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      line-height: 1.6;
+      margin: 0;
+      padding: 2rem;
+      background-color: #f4f4f4;
+      color: #301934;
+      text-align: center;
+    }
+    header {
+      background: #301934;
+      color: #fff;
+      padding: 1rem 0;
+      width: 100%;
+    }
+    main {
+      padding: 2rem;
+      max-width: 800px;
+      margin: 2rem auto;
+      background: #fff;
+      border-radius: 10px;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    }
+    #weather {
+      background: white;
+      padding: 1rem 2rem;
+      border-radius: 8px;
+      display: inline-block;
+      box-shadow: 0 0 8px #301934;
+    }
+    #map {
+    height: 400px;
+    margin-top: 2rem;
+    border: 1px solid #301934;
+    border-radius: 6px; /* Optional: gives it soft corners */
+    }
+    .temp {
+      font-size: 2rem;
+    }
+    footer {
+    text-align: center;
+    padding: 1rem 0;
+    background: #301934;
+    color: #fff;
+    margin-top: 2rem;
+    }
+    a {
+      color: #301934;
+    }
+    a:hover {
+      color: #555;
+    }
+    .link-list {
+      list-style: none;
+      padding: 0;
+    }
+    .link-list li {
+      margin-bottom: 1rem;
+    }
+    .link-list li::before {
+      content: "🔗";
+      margin-right: 0.5rem;
+    }
+  </style>
+</head>
+
+<body>
+
+  <header>
+    <h1>Val's Weather API Page</h1>
+  </header>
+
+  <main>
+    <h1>Current Weather in Houston, TX</h1>
+    <div id="weather">Loading...</div>
+
+    <h2>Precipitation Map</h2>
+    <div id="map"></div>
+
+    <script>
+      const apiKey = 'd30c29ed1db5cb6cc86bb057558a6fc8';
+      const lat = 29.7604, lon = -95.3698;
+      const units = 'imperial'; // use 'metric' for Celsius
+
+      const url = `https://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lon}&appid=${apiKey}&units=${units}`;
+
+      fetch(url)
+        .then(res => res.json())
+        .then(data => {
+          const { temp, feels_like, pressure, humidity } = data.main;
+          const visibility = data.visibility;
+          const { speed: windSpeed, deg: windDeg } = data.wind;
+          const cloudiness = data.clouds?.all;
+          const description = data.weather[0].description;
+          const icon = data.weather[0].icon;
+          const iconUrl = `https://openweathermap.org/img/wn/${icon}@2x.png`;
+
+          document.getElementById('weather').innerHTML = `
+            <h2>${data.name}</h2>
+            <img src="${iconUrl}" alt="${description}">
+            <p><strong>Condition:</strong> ${description}</p>
+            <p><strong>Temperature:</strong> ${temp}&deg; (Feels like ${feels_like}&deg;)</p>
+            <p><strong>Humidity:</strong> ${humidity}%</p>
+            <p><strong>Pressure:</strong> ${pressure} hPa</p>
+            <p><strong>Visibility:</strong> ${(visibility / 1609.34).toFixed(1)} mi</p>
+            <p><strong>Cloudiness:</strong> ${cloudiness}%</p>
+            <p><strong>Wind:</strong> ${windSpeed} mph (from ${windDeg}&deg;)</p>
+          `;
+        })
+        .catch(err => {
+          document.getElementById('weather').innerText = 'Unable to fetch weather data.';
+          console.error(err);
+        });
+
+      // Map Initialization
+      const map = L.map('map').setView([lat, lon], 7);
+
+      // Base map layer
+      L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+        attribution: '&copy; OpenStreetMap contributors'
+      }).addTo(map);
+
+      // Precipitation overlay
+      L.tileLayer(
+        `https://tile.openweathermap.org/map/precipitation_new/{z}/{x}/{y}.png?appid=${apiKey}`,
+        {
+          opacity: 0.6,
+          attribution: '&copy; OpenWeatherMap'
+        }
+      ).addTo(map);
+    </script>
+  </main>
+
+  <section style="margin-top: 2rem;">
+    <h4>Application created by Valerie Wade</h4>
+    <h4>This page offers a simple example of my implementation of the OpenWeather API.</h4>
+    <h4>It demonstrates some of my coding and technical writing skills.</h4>
+  </section>
+
+  <footer>
+    <p>&copy; 2025 Valerie Wade. All rights reserved.</p>
+  </footer>
+
+</body>
+</html>
