@@ -1,3 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Houston Weather API Docs</title>
+  <link rel="stylesheet" href="https://unpkg.com/swagger-ui-dist/swagger-ui.css" />
+  <style>
+    html {
+      box-sizing: border-box;
+      font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+    }
+    *, *:before, *:after {
+      box-sizing: inherit;
+    }
+    body {
+      margin: 0;
+      background: #f4f4f4;
+    }
+    header {
+      background-color: #301934;
+      color: #fff;
+      padding: 1rem;
+      text-align: center;
+    }
+    #swagger-ui {
+      margin: 2rem;
+    }
+    footer {
+      text-align: center;
+      padding: 1rem;
+      background: #301934;
+      color: white;
+      position: relative;
+      bottom: 0;
+      width: 100%;
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>Val's Houston Weather API Demo</h1>
+    <p>Interactive documentation powered by Swagger UI</p>
+  </header>
+
+  <div id="swagger-ui"></div>
+
+  <footer>
+    <p>&copy; 2025 Valerie Wade. All rights reserved.</p>
+  </footer>
+
+  <script src="https://unpkg.com/swagger-ui-dist/swagger-ui-bundle.js"></script>
+  <script src="https://unpkg.com/swagger-ui-dist/swagger-ui-standalone-preset.js"></script>
+  <script>
+    window.onload = () => {
+      SwaggerUIBundle({
+        url: "https://valwade275.github.io/weather-api-demo/openapi.yaml", // update if in /docs/
+        dom_id: "#swagger-ui",
+        deepLinking: true,
+        presets: [
+          SwaggerUIBundle.presets.apis,
+          SwaggerUIStandalonePreset
+        ],
+        layout: "StandaloneLayout"
+      });
+    };
+  </script>
+</body>
+</html>
+
+
+
+
 <!-- HTML for static distribution bundle build 
 <!DOCTYPE html>
 <html lang="en">
@@ -19,64 +91,3 @@
 </html> -->
 
 
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <title>Valerie Wade's Weather API Docs</title>
-  <link rel="stylesheet" type="text/css" href="swagger-ui.css" />
-  <link rel="icon" type="image/png" href="favicon-32x32.png" sizes="32x32" />
-  <link rel="icon" type="image/png" href="favicon-16x16.png" sizes="16x16" />
-  <style>
-    html {
-      box-sizing: border-box;
-      overflow: -moz-scrollbars-vertical;
-      overflow-y: scroll;
-    }
-
-    *, *:before, *:after {
-      box-sizing: inherit;
-    }
-
-    body {
-      margin: 0;
-      background: #f4f4f4;
-    }
-
-    .topbar {
-      background-color: #301934 !important;
-    }
-
-    .topbar-wrapper a {
-      color: #fff !important;
-      font-weight: bold;
-    }
-
-    .swagger-ui .info hgroup.main {
-      margin-top: 30px;
-    }
-  </style>
-</head>
-
-<body>
-  <div id="swagger-ui"></div>
-
-  <script src="swagger-ui-bundle.js" charset="UTF-8"> </script>
-  <script src="swagger-ui-standalone-preset.js" charset="UTF-8"> </script>
-  <script>
-    window.onload = () => {
-      const ui = SwaggerUIBundle({
-        url: "https://valwade275.github.io/weather-api-demo/openapi.yaml",
-        dom_id: '#swagger-ui',
-        deepLinking: true,
-        presets: [
-          SwaggerUIBundle.presets.apis,
-          SwaggerUIStandalonePreset
-        ],
-        layout: "StandaloneLayout"
-      })
-      window.ui = ui
-    }
-  </script>
-</body>
-</html>
