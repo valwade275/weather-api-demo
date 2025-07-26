@@ -9,8 +9,8 @@ info:
     name: Valerie Wade
     url: https://vcwade.com/tech/ 
   license:
-    name: MIT
-    url: https://opensource.org/licenses/MIT
+    name: Creative Commons
+    url: https://creativecommons.org/licenses/by-nc-sa/4.0/
 
 servers:
   - url: https://api.openweathermap.org/data/2.5

@@ -1,9 +1,10 @@
 # Documentation for Val's Weather API Demo 🌦️
-This is a simple weather dashboard built using the [OpenWeatherMap Current Weather API](https://openweathermap.org/current) and [Leaflet.js](https://leafletjs.com) for the precipitation map.
+This is a simple real-time weather dashboard built using the [OpenWeatherMap Current Weather API](https://openweathermap.org/current) and [Leaflet.js](https://leafletjs.com) for the precipitation map.
 
 ## 🔗 Live Demo
 
 👉 [View my weather application here.](https://valwade275.github.io/weather-api-demo)
+📝 Want to make your own version? [Click here for my tutorial.](vals-weather-tutorial.md)
 
 ## 📌 Purpose
 
@@ -97,3 +98,6 @@ Highlights:
 - GitHub Pages for deployment
 - Swagger UI for interactive API docs 
 
+## 📝 License
+
+This demo project is released under the [CC BY-NC-SA 4.0](https://creativecommons.org/licenses/by-nc-sa/4.0/) license. 

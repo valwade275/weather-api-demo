@@ -37,6 +37,7 @@
       border-radius: 10px;
       box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
     }
+/* Styling for weather and map section */
     #weather {
       background: white;
       padding: 1rem 2rem;
@@ -53,6 +54,7 @@
     .temp {
       font-size: 2rem;
     }
+/* Styling for footer section */
     footer {
     text-align: center;
     padding: 1rem 0;
@@ -84,6 +86,89 @@
       display: inline-block;
       text-align: left; /* This aligns the bullet points and the text within the list items to the left */
     }
+/* Styling for button */ 
+.docs-button {
+  display: block;
+  width: fit-content;
+  margin: 2rem auto;
+  padding: 0.75rem 1.5rem;
+  background-color: #552c5c;
+  color: white;
+  text-decoration: none;
+  font-size: 1.1rem;
+  font-weight: bold;
+  border-radius: 8px;
+  text-align: center;
+  transition: background-color 0.3s ease;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.docs-button:hover {
+  background-color: #8e4f99;
+}
+
+/* Styling for tutorial section */ 
+ details.tutorial-section {
+    margin: 2rem auto;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    max-width: 800px;
+    background-color: #f9f9f9;
+  }
+
+  details.tutorial-section summary {
+    font-size: 1.2rem;
+    font-weight: bold;
+    cursor: pointer;
+    padding: 1rem;
+    background-color: #552c5c;
+    color: white;
+    border-radius: 8px;
+    transition: background-color 0.3s ease;
+    text-align: center;
+    list-style: none;
+  }
+
+  details.tutorial-section summary:hover {
+    background-color: #8e4f99;
+  }
+
+  .tutorial-content {
+    padding: 1rem 1.5rem;
+    line-height: 1.6;
+    font-size: 1rem;
+    color: #333;
+    text-align: left;
+  }
+
+  .tutorial-content code {
+    padding: 2px 4px;
+    border-radius: 4px;
+    font-family: monospace;
+  }
+
+  .tutorial-content pre {
+    background: #272822;
+    color: #f8f8f2;
+    padding: 1rem;
+    border-radius: 6px;
+    font-size: 0.95rem;
+    overflow-y: auto;     /* enables vertical scrolling */
+    overflow-x: auto;     /* enables horizontal scrolling if needed */
+    max-height: 300px;    /* adjust the height as needed */
+    white-space: pre-wrap;
+    word-wrap: break-word;
+    margin: 1rem 0;
+  }
+
+  .tutorial-content ul {
+    padding-left: 1.25rem;
+  }
+
+  .tutorial-content h3 {
+    margin-top: 1.5rem;
+    color: #552c5c;
+  }
   </style>
 </head>
 
@@ -166,11 +251,143 @@
       </ul>
     </div>
     </section>
-    <h4><a href="https://valwade275.github.io/weather-api-demo/docs/" target="_blank">View API Docs</a></h4>
+  
+  <section>
+    <a href="https://valwade275.github.io/weather-api-demo/docs/" class="docs-button" target="_blank">📄 View API Docs</a>
+    <!-- Use docs/index.html to see local version instead of published version -->
   </section>
+
+<details class="tutorial-section">
+  <summary>📘 View Tutorial: How to Build Val's Weather App</summary>
+  <div class="tutorial-content">
+
+    <h3>🧭 Step 1: Define the Project Goal</h3>
+    <p><strong>Goal:</strong> Create a single-page weather dashboard that pulls live weather data for Houston, TX (or another location of your choice).</p>
+    <p><strong>Tools:</strong> OpenWeatherMap, Leaflet.js, HTML, CSS, JavaScript, Swagger UI, GitHub Pages</p>
+
+    <h3>🔌 Step 2: Obtain Your API Key</h3>
+    <p>
+      Go to <a href="https://openweathermap.org/api" target="_blank">OpenWeather</a> and register for a free account. After creating your account, an API key will be generated for you.
+    </p>
+    <p>
+      <em>Note:</em> It may be helpful to open the <a href="https://openweathermap.org/api/one-call-3" target="_blank">OpenWeather API documentation</a> in a separate browser tab for reference.
+    </p>
+
+    <h3>💻 Step 3: Write the HTML Code</h3>
+    <p>Begin a new <code>.html</code> file. <a href="https://www.w3schools.com/html/html_basic.asp" target="_blank">Click here for HTML basics</a>.</p>
+    <p><em>Note:</em> You can add your CSS code within the same document or link to a separate stylesheet. <a href="https://www.w3schools.com/html/html_css.asp" target="_blank">Click here for CSS basics</a>.</p>
+
+    <h3>⚙️ Step 4: Write the JavaScript Code</h3>
+    <p>Place your JavaScript code inside <code>&lt;script&gt;</code> tags within your <code>.html</code> file. This code instructs the application to connect to the API, add the precipitation map, and pull the appropriate information.</p>
+    <p><em>Note:</em> Replace <code>&lt;YOUR_API_KEY_HERE&gt;</code> with your actual API key. Also, you can change the map’s location by modifying the latitude and longitude values.</p>
+
+    <pre><code>&lt;script&gt;
+const apiKey = 'YOUR_API_KEY_HERE';
+const lat = 29.7604, lon = -95.3698;
+const units = 'imperial'; // use 'metric' for Celsius
+
+const url = `https://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lon}&appid=${apiKey}&units=${units}`;
+
+fetch(url)
+  .then(res => res.json())
+  .then(data => {
+    const { temp, feels_like, pressure, humidity } = data.main;
+    const visibility = data.visibility;
+    const { speed: windSpeed, deg: windDeg } = data.wind;
+    const cloudiness = data.clouds?.all;
+    const description = data.weather[0].description;
+    const icon = data.weather[0].icon;
+    const iconUrl = `https://openweathermap.org/img/wn/${icon}@2x.png`;
+
+    document.getElementById('weather').innerHTML = `
+      &lt;h2&gt;${data.name}&lt;/h2&gt;
+      &lt;img src="${iconUrl}" alt="${description}"&gt;
+      &lt;p&gt;&lt;strong&gt;Condition:&lt;/strong&gt; ${description}&lt;/p&gt;
+      &lt;p&gt;&lt;strong&gt;Temperature:&lt;/strong&gt; ${temp}&deg; (Feels like ${feels_like}&deg;)&lt;/p&gt;
+      &lt;p&gt;&lt;strong&gt;Humidity:&lt;/strong&gt; ${humidity}%&lt;/p&gt;
+      &lt;p&gt;&lt;strong&gt;Pressure:&lt;/strong&gt; ${pressure} hPa&lt;/p&gt;
+      &lt;p&gt;&lt;strong&gt;Visibility:&lt;/strong&gt; ${(visibility / 1609.34).toFixed(1)} mi&lt;/p&gt;
+      &lt;p&gt;&lt;strong&gt;Cloudiness:&lt;/strong&gt; ${cloudiness}%&lt;/p&gt;
+      &lt;p&gt;&lt;strong&gt;Wind:&lt;/strong&gt; ${windSpeed} mph (from ${windDeg}&deg;)&lt;/p&gt;
+    `;
+  })
+  .catch(err => {
+    document.getElementById('weather').innerText = 'Unable to fetch weather data.';
+    console.error(err);
+  });
+
+// Map Initialization
+const map = L.map('map').setView([lat, lon], 7);
+
+// Base map layer
+L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+  attribution: '&copy; OpenStreetMap contributors'
+}).addTo(map);
+
+// Precipitation overlay
+L.tileLayer(
+  `https://tile.openweathermap.org/map/precipitation_new/{z}/{x}/{y}.png?appid=${apiKey}`,
+  {
+    opacity: 0.6,
+    attribution: '&copy; OpenWeatherMap'
+  }
+).addTo(map);
+&lt;/script&gt;
+</code></pre>
+
+    <h3>📊 Step 5: Display the Data</h3>
+<p>
+  Once you've successfully fetched weather data from the API, the next step is to extract and display it in your HTML.
+  You will typically work with the <code>main</code>, <code>weather</code>, <code>wind</code>, and other objects in the JSON response.
+</p>
+
+<p>For example, after calling <code>fetch()</code> and parsing the JSON, you can target specific values like this:</p>
+
+<pre><code>
+const { temp, feels_like, pressure, humidity } = data.main;
+const { speed: windSpeed, deg: windDeg } = data.wind;
+const cloudiness = data.clouds?.all;
+const description = data.weather[0].description;
+const icon = data.weather[0].icon;
+</code></pre>
+
+<p>Then, update a section of your HTML to include this data using <code>innerHTML</code>:</p>
+
+<pre><code>
+  document.getElementById('weather').innerHTML = `
+  &lt;h2&gt;${data.name}&lt;/h2&gt;
+  &lt;img src="https://openweathermap.org/img/wn/${icon}@2x.png" alt="${description}"&gt;
+  &lt;p&gt;&lt;strong&gt;Condition:&lt;/strong&gt; ${description}&lt;/p&gt;
+  &lt;p&gt;&lt;strong&gt;Temperature:&lt;/strong&gt; ${temp}&deg; (Feels like ${feels_like}&deg;)&lt;/p&gt;
+  &lt;p&gt;&lt;strong&gt;Humidity:&lt;/strong&gt; ${humidity}%&lt;/p&gt;
+  &lt;p&gt;&lt;strong&gt;Pressure:&lt;/strong&gt; ${pressure} hPa&lt;/p&gt;
+  &lt;p&gt;&lt;strong&gt;Wind:&lt;/strong&gt; ${windSpeed} mph (from ${windDeg}&deg;)&lt;/p&gt;
+  &lt;p&gt;&lt;strong&gt;Cloudiness:&lt;/strong&gt; ${cloudiness}%&lt;/p&gt;
+</code></pre>
+
+
+    <h3>🌐 Step 6: Deploy to GitHub Pages</h3>
+    <p>
+      Push your project files to a public GitHub repository. Then, go to your repository's <strong>Settings</strong> and scroll to the <strong>Pages</strong> section.
+      Choose the <code>main</code> branch and the <code>/ (root)</code> folder, then save. Your site will be published at a GitHub Pages URL.
+    </p>
+    <p>
+      For help, refer to the <a href="https://pages.github.com/" target="_blank">GitHub Pages documentation</a>.
+    </p>
+
+    <h3>🎯 Result</h3>
+    <p>You now have a live weather application with a map and icon support. It is deployed with a shareable link.</p>
+    
+  </div>
+</details>
 
   <footer>
     <p>&copy; 2025 Valerie Wade. All rights reserved.</p>
+    <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/"><img src="https://img.icons8.com/?size=45&id=yLuI6PMA_a0O&format=png&color=000000" alt="License"/></a>
+    <a href="https://vcwade.com/"><img src="https://img.icons8.com/bubbles/50/000000/web.png" alt="Website"/></a>
+	  <a href="mailto:valwade275@gmail.com"><img src="https://img.icons8.com/bubbles/50/000000/gmail.png" alt="Gmail"/></a>
+	  <a href="https://linkedin.com/in/vcwade"><img src="https://img.icons8.com/bubbles/50/000000/linkedin.png" alt="LinkedIn"/></a>
+    <a href="https://valwade275.github.io/"><img src="https://img.icons8.com/bubbles/50/000000/github.png" alt="GitHub"/></a>
   </footer>
 
 </body>
